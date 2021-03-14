@@ -1,5 +1,4 @@
 const express = require('express');
-const handlebars = require('express-handlebars');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const passportSocket = require('passport.socketio');
@@ -15,6 +14,11 @@ const SteamCommunity = require('steamcommunity');
 const SteamTotp = require('steam-totp');
 const config = require('./config.json');
 
+const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');   //Allow steam info to be displayed on handlebars page (fixes error)
+const Handlebars = require('handlebars');
+const exphbs = require('express-handlebars');
+
+
 const Inventory = require('./models/inventory');
 const Item = require('./models/item');
 const User = require('./models/user');
@@ -26,11 +30,16 @@ const priceUpdater = require('./helpers/priceUpdater');
 const app = express();
 const server = http.Server(app);
 const io = socket(server);
-const hbs = handlebars.create();
+const hbs = Handlebars.create();
 const community = new SteamCommunity();
+
 const sessionStore = new MongoStore({
   mongooseConnection: mongoose.connection
 });
+
+
+
+
 const bot = new SteamBot({
   accountName: config.username,
   password: config.password,
@@ -131,7 +140,12 @@ io.on('connection', socket => {
   });
 });
 
-app.engine('hbs', hbs.engine);
+app.engine('hbs', exphbs({
+    defaultLayout: 'main',
+    // ...implement newly added insecure prototype access
+    handlebars: allowInsecurePrototypeAccess(Handlebars)
+    })
+);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.locals.layout = false
