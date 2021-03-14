@@ -256,6 +256,12 @@ app.get('/withdraw', (req, res) => {
   }
 });
 
+app.get('/profile', (req, res) => {
+  res.render('profile', {
+    user: req.user
+  });
+});
+
 app.get(
   /^\/auth\/steam(\/return)?$/,
   passport.authenticate('steam', { failureRedirect: '/' }),
@@ -268,6 +274,7 @@ app.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
+
 
 server.listen(3037, () => {
   console.log('listening');
