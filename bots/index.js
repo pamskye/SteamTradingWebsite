@@ -45,7 +45,7 @@ class SteamBot {
 
         if (item) {
           offer.addTheirItem(item);
-          offer.setMessage('Deposit item on the website!');
+          offer.setMessage(`Deposit ${item.name} on the website!`);
           offer.send((err, status) => {
             callback(err, status === 'sent' || status === 'pending', offer.id);
           });
