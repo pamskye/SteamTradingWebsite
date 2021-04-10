@@ -46,7 +46,7 @@ const bot = new SteamBot({
   twoFactorCode: SteamTotp.generateAuthCode(config.sharedSecret)
 });
 
-mongoose.connect('mongodb://127.0.0.1:27017/guide');
+mongoose.connect('mongodb://127.0.0.1:27017/steamtradingwebsite');
 priceUpdater(6 * 60 * 60 * 1000);
 
 passport.serializeUser((user, done) => {
