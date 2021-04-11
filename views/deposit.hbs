@@ -7,7 +7,7 @@
 		<h1>Deposit Items</h1>
 		<ul>
 			{{#each items}}
-			<li class="deposit item" data-assetid="{{this.assetid}}">{{this.name}} (${{this.price}})</li>
+			<li class="deposit item" data-assetid="{{this.assetid}}">{{this.name}} (${{this.price}}) <img src="https://steamcommunity-a.akamaihd.net/economy/image/{{this.icon_url}}" alt="Admin" class="rounded-circle" width="150"></li>
 			{{/each}}
 		</ul>
 	</body>
