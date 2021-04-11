@@ -1,45 +1,66 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Profile</title>
-	</head>
-	<body>
-		{{#if user}}
-		<h1>Welcome, {{user.personaname}}!</h1>
-		<table>
-			<tr>
-				<th>Property</th>
-				<th>Value</th>
-			</tr>
-			<tr>
-				<td>Username</td>
-				<td>{{user.personaname}}</td>
-			</tr>
-			<tr>
-				<td>SteamID</td>
-				<td>{{user.steamid}}</td>
-			</tr>
-			<tr>
-				<td>Avatar</td>
-				<td><img src="{{user.avatar}}" /></td>
-			</tr>
-			<tr>
-				<td>Real Name (if set)</td>
-				<td>{{user.realname}}</td>
-			</tr>
-			<tr>
-				<td>Location (if set)</td>
-				<td>{{user.loccountrycode}}</td>
-			</tr>
-		</table>
-		<br />
-		<a href="/logout">Logout</a>
-		{{else}}
-		<a href="/auth/steam">Click here to login</a>
-		{{/if}}
-	</body>
+    <head>
+        <title>Profile</title>
+		<link rel="stylesheet" href="../stylesheets/profile.css" />
+    </head>
+<div class="container">
+    <div class="main-body">
+    
+         
+          <!-- /Breadcrumb -->
+          <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    <img src="{{user.avatarfull}}" alt="Admin" class="rounded-circle" width="150">
+                    <div class="mt-3">
+                      <h4>{{user.personaname}}</h4>
+                      <p class="text-secondary mb-1">SteamID: {{user.steamid}}</p>
+					  <a href="https://steamcommunity.com/profiles/{{user.steamid}}" class="btn btn-primary" role="button">Steam account</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+             
 
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="/socket.io/socket.io.js"></script>
-	<script src="/main.js"></script>
+        {{#if user}}
+        <h1>Welcome, {{user.personaname}}!</h1>
+        <table>
+            <tr>
+                <th>Property</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Username</td>
+                <td>{{user.personaname}}</td>
+            </tr>
+            <tr>
+                <td>SteamID</td>
+                <td>{{user.steamid}}</td>
+            </tr>
+            <tr>
+                <td>Avatar</td>
+                <td><img src="{{user.avatar}}" /></td>
+            </tr>
+            <tr>
+                <td>Real Name (if set)</td>
+                <td>{{user.realname}}</td>
+            </tr>
+            <tr>
+                <td>Location (if set)</td>
+                <td>{{user.loccountrycode}}</td>
+            </tr>
+        </table>
+        <br />
+        <a href="/logout">Logout</a>
+        {{else}}
+        <a href="/auth/steam">Click here to login</a>
+        {{/if}}
+    </body>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/main.js"></script>
 </html>
