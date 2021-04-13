@@ -12,6 +12,7 @@ const socket = require('socket.io');
 const MongoStore = require('connect-mongo')(session);
 const SteamCommunity = require('steamcommunity');
 const SteamTotp = require('steam-totp');
+const GlobalOffensive = require('globaloffensive');
 const config = require('./config.json');
 
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');   //Allow steam info to be displayed on handlebars page (fixes error)

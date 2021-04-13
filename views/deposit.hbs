@@ -2,24 +2,51 @@
 <html>
 	<head>
 		<title>Deposit</title>
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 		<link rel="stylesheet" href="stylesheets/deposit.css" />
 	</head>
 	<body>
-		<h1>Deposit Items</h1>
-		<ul>
-			{{#each items}}
-			<li class="deposit item" data-assetid="{{this.assetid}}">{{this.name}} (${{this.price}}) <img src="https://steamcommunity-a.akamaihd.net/economy/image/{{this.icon_url}}" alt="Admin" class="rounded-circle" width="150"></li>
-			{{/each}}
-
-
-			<div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="https://steamcommunity-a.akamaihd.net/economy/image/{{this.icon_url}}" alt="Item Image">
-  <div class="card-body">
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
+<div class="container">
+    <br>
+    <h4>Deposit Items</h2>
+	<br>
+	<div class="row" id="ads">
+    <!-- Category Card -->
+	{{#each items}}
+    <div class="col-md-4 mb-5">
+        <div class="deposit item" data-assetid="{{this.assetid}}">
+        <div class="card rounded">
+            <div class="card-image">
+                <span class="card-notify-badge">{{this.name}}</span>
+                <img class="img-fluid" src="https://steamcommunity-a.akamaihd.net/economy/image/{{this.icon_url}}"  alt="Alternate Text" />
+            </div>
+            <div class="card-image-overlay m-auto">
+                <span class="card-detail-badge">Placeholder</span>
+                <span class="card-detail-badge">(${{this.price}})</span>
+                <span class="card-detail-badge">{{this.assetid}}</span>
+            </div>
+            <div class="card-body text-center">
+                <div class="ad-title m-auto">
+                    <h5>Honda Accord LX</h5>
+                </div>
+                <a class="ad-btn" href="#">View</a>
+              </div>
+            </div>
+        </div>
+    </div>
+	{{/each}}
+   
 </div>
-		</ul>
+</div>
+		
 	</body>
+
+
+
+
 
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
