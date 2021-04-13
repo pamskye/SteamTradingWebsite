@@ -1,20 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
-body,html {
-    background: white;
+body {
     font-family: 'Montserrat', sans-serif;
-    height: 100%;
-}
-
-#profile-img {
-    height:180px;
-}
-.h-80 {
-    height: 80% !important;
-}
-
-.btn {
-
-    text-align: center;
+    background: #FFF;
 }

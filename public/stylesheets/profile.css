@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #FFF;
+}
+
+
 
 
 .card {
@@ -188,7 +197,8 @@
 .card.hovercard {
     position: relative;
     padding-top: 0;
-    overflow: hidden;
+    
+    
     text-align: center;
     background-color: rgba(214, 224, 226, 0.2);
 }
