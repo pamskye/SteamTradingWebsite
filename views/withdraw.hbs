@@ -7,7 +7,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="stylesheets/withdraw.css" />
+<link rel="stylesheet" href="stylesheets/deposit.css" />
 	</head>
 	<body>
 
@@ -44,12 +44,37 @@
 <br>
 <br>
 
-		<h1>Withdraw Items</h1>
-		<ul>
-			{{#each items}}
-			<li class="withdraw item" data-assetid="{{this.assetid}}">{{this.name}} (${{this.price}})</li>
-			{{/each}}
-		</ul>
+		  <br>
+    <h4>Withdraw Items</h2>
+	<br>
+
+    
+	<div class="row" id="ads">
+    <!-- Category Card -->
+	{{#each items}}
+    <div class="col-md-4 mb-5">
+        <div class="withdraw item" data-assetid="{{this.assetid}}">
+        <div class="card rounded">
+            <div class="card-image">
+                <span class="card-notify-badge">{{this.name}}</span>
+                <img class="img-fluid" src="https://steamcommunity-a.akamaihd.net/economy/image/{{this.icon_url}}"  alt="Alternate Text" />
+            </div>
+            <div class="card-image-overlay m-auto">
+                <span class="card-detail-badge">Placeholder</span>
+                <span class="card-detail-badge">(${{this.price}})</span>
+                <span class="card-detail-badge">{{this.assetid}}</span>
+            </div>
+            <div class="card-body text-center">
+                <a class="ad-btn" href="#">View</a>
+              </div>
+            </div>
+        </div>
+    </div>
+	{{/each}}
+   
+</div>
+</div>
+		
 	</body>
 
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

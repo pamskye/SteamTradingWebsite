@@ -2,6 +2,7 @@ const SteamUser = require('steam-user');
 const SteamCommunity = require('steamcommunity');
 const TradeOfferManager = require('steam-tradeoffer-manager');
 const config = require('../config.json');
+const FS = require('fs-extra')
 
 class SteamBot {
   constructor(logOnOptions) {
@@ -46,39 +47,67 @@ class SteamBot {
         if (item) {
           offer.addTheirItem(item);
           offer.setMessage(`Deposit ${item.name} on the website!`); //TO-DO grab item price here and add to credits
-          offer.send((err, status) => {
-            callback(err, status === 'sent' || status === 'pending', offer.id);
+          offer.send(function(err, status) {
+            if (err) {
+              console.log(err);
+              return;
+            }
+
+            if (status == 'pending') {
+              // We need to confirm it
+              console.log(`Offer #${offer.id} sent, but requires confirmation`);
+              community.acceptConfirmationForObject(config.identitySecret, offer.id, function(err) {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log("Offer confirmed");
+                }
+              });
+            } else {
+              console.log(`Offer #${offer.id} sent successfully`);
+            }
           });
-        } else {
-          callback(new Error('Could not find item'), false);
-        }
-      }
+        };
+      };
+      
     });
+    this.manager.on('sentOfferChanged', function(offer, oldState) {
+      console.log(`Offer #${offer.id} changed: ${TradeOfferManager.ETradeOfferState[oldState]} -> ${TradeOfferManager.ETradeOfferState[offer.state]}`);
+    });
+    
+    this.manager.on('pollData', function(pollData) {
+      FS.writeFileSync('polldata.json', JSON.stringify(pollData));
+    });
+    
   }
 
-  sendWithdrawTrade(partner, credits, assetid, callback) {
-    const offer = this.manager.createOffer(partner);
 
-    this.manager.getInventoryContents(730, 2, true, (err, inv) => {
-      if (err) {
-        console.log(err);
-      } else {
-        const item = inv.find(item => item.assetid === assetid);
 
-        if (item) {
-          // Check to make sure the user can afford the item here
+  
 
-          offer.addMyItem(item);
-          offer.setMessage('Withdraw item from the website!');
-          offer.send((err, status) => {
-            callback(err, status === 'sent' || status === 'pending', offer.id);
-          });
-        } else {
-          callback(new Error('Could not find item'), false);
-        }
-      }
-    });
-  }
+  // sendWithdrawTrade(partner, credits, assetid, callback) {
+  //   const offer = this.manager.createOffer(partner);
+
+  //   this.manager.getInventoryContents(730, 2, true, (err, inv) => {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       const item = inv.find(item => item.assetid === assetid);
+
+  //       if (item) {
+  //         // Check to make sure the user can afford the item here
+
+  //         offer.addMyItem(item);
+  //         offer.setMessage('Withdraw item from the website!');
+  //         offer.send((err, status) => {
+  //           callback(err, status === 'sent' || status === 'pending', offer.id);
+  //         });
+  //       } else {
+  //         callback(new Error('Could not find item'), false);
+  //       }
+  //     }
+  //   });
+  // }
 }
 
 module.exports = SteamBot;
