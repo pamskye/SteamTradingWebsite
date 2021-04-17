@@ -33,9 +33,27 @@ class SteamBot {
       this.community.setCookies(cookies);
       this.community.startConfirmationChecker(10000, config.identitySecret);
     });
+
+
+    this.client.on('friendMessage', (steamID, message) => {
+          
+  
+      if (message.match('!help')) {
+        console.log(' Chat From ' + steamID + ': ' + message);
+          this.client.chatMessage(steamID, 
+          `TYPE LIST OF COMMANDS HERE`);
+                  }
+                  else {
+                    this.client.chatMessage(steamID, '\nInvalid !give-all option. Please try again.');
+                
+              }
+            });
+
+
+
   }
 
-  sendDepositTrade(partner, assetid, callback) {
+  sendDepositTrade(partner, assetid, callback, steamID, message) {
     const offer = this.manager.createOffer(partner);
 
     this.manager.getUserInventoryContents(partner, 730, 2, true, (err, inv) => {
@@ -64,7 +82,7 @@ class SteamBot {
                 }
               });
             } else {
-              console.log(`Offer #${offer.id} sent successfully`);
+              console.log(`Offer #${offer.id} sent successfully ${offer.tradeID} ${offer.itemsToGive} ${offer.}`);
             }
           });
         };
@@ -72,14 +90,23 @@ class SteamBot {
       
     });
     this.manager.on('sentOfferChanged', function(offer, oldState) {
-      console.log(`Offer #${offer.id} changed: ${TradeOfferManager.ETradeOfferState[oldState]} -> ${TradeOfferManager.ETradeOfferState[offer.state]}`);
+      console.log(`Offer #${offer.id} changed: ${TradeOfferManager.ETradeOfferState[oldState]} -> ${TradeOfferManager.ETradeOfferState[offer.state]}`);   //TO-DO add credits here from item price
     });
     
     this.manager.on('pollData', function(pollData) {
       FS.writeFileSync('polldata.json', JSON.stringify(pollData));
     });
     
+
+
+
+
   }
+
+
+
+
+
 
 
 
