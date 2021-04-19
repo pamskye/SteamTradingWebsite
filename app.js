@@ -109,7 +109,7 @@ io.on('connection', socket => {
       else {
         var test = 1;   //replace this with the price of item being traded
         var collection = db.collection("users");
-        collection.findOneAndUpdate({steamid: user.steamid}, {$inc: {credits: test}}, {upsert: true}, function(err,doc) {  //replace steamid to grab current user
+        collection.findOneAndUpdate({steamid: user.steamid}, {$inc: {credits: test}}, {upsert: true}, function(err,doc) { 
           if (err) { throw err; }
           else { console.log("Updated credit balance"); }
         });  
@@ -260,35 +260,58 @@ app.get('/deposit', (req, res) => {
     res.redirect('/auth/steam');
   }
 });
+// http://steamcommunity.com/profiles/76561198175112605/inventory/json/730/2
 
 app.get('/withdraw', (req, res) => {
-  if (req.user) {
-    Item.find({}, (err, inv) => {
-      async.map(
-        inv,
-        (item, done) => {
-          Price.findOne(
-            {
-              market_hash_name: item.name
-            },
-            (err, doc) => {
-              item.price = doc ? doc.price : '?';
-              done(null, item.toObject());
-            }
-          );
-        },
-        (err, results) => {
-          res.render('withdraw', {
-            user: req.user,
-            items: results
-          });
-        }
-      );
-    });
-  } else {
-    res.redirect('/auth/steam');
-  }
-});
+  community.getUserInventoryContents(
+    '76561198175112605',
+    730,
+    2,
+    true,
+    (err, inv) => {
+      if (err) {
+        console.log(err);
+      } else {
+        async.map(
+          inv,
+          (item, done) => {
+            Price.findOne(
+              {
+                market_hash_name: item.market_hash_name
+              },
+              (err, doc) => {
+                item.price = doc ? doc.price : '?';
+                done(null, item);
+              }
+            );
+          },
+          (err, results) => {
+            Inventory.update(
+              {
+                steamid: 76561198175112605
+              },
+              {
+                $set: {
+                  updated: Date.now(),
+                  items: results
+                }
+              },
+              err => {
+                if (err) {
+                  console.log(err);
+                }
+              }
+            );
+
+            res.render('withdraw', {
+              user: req.user,
+              items: results
+            });
+          }
+        );
+      }
+    })
+  });
 
 app.get('/profile', (req, res) => {
   res.render('profile', {
@@ -313,5 +336,3 @@ app.get('/logout', (req, res) => {
 server.listen(3037, () => {
   console.log('listening');
 });
-
-
