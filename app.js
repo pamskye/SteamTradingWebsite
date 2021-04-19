@@ -101,7 +101,26 @@ io.use(
 io.on('connection', socket => {
   socket.on('deposit', data => {
     const user = socket.request.user;
-    console.log(`${user.personaname} is depositting ${data.assetid}`);
+    
+
+    //TO-DO Bring this to index.js to work after a successful trade offer has gone through.
+    mongoose.connect('mongodb://127.0.0.1:27017/steamtradingwebsite', function(err,db){   //Add credits into the credits field in the User collection in mongo database
+      if (err) { throw err; }   
+      else {
+        var test = 1;   //replace this with the price of item being traded
+        var collection = db.collection("users");
+        collection.findOneAndUpdate({steamid: user.steamid}, {$inc: {credits: test}}, {upsert: true}, function(err,doc) {  //replace steamid to grab current user
+          if (err) { throw err; }
+          else { console.log("Updated credit balance"); }
+        });  
+      }
+    });
+    
+
+
+
+
+    console.log(`${user.personaname} is depositting ${data.assetid} Current credit balance: ${user.credits}`);
 
     bot.sendDepositTrade(
       user.steamid,

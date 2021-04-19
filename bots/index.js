@@ -3,7 +3,7 @@ const SteamCommunity = require('steamcommunity');
 const TradeOfferManager = require('steam-tradeoffer-manager');
 const config = require('../config.json');
 const FS = require('fs-extra')
-
+const User = require('../models/user');
 class SteamBot {
   constructor(logOnOptions) {
     this.client = new SteamUser();
@@ -44,7 +44,7 @@ class SteamBot {
           `TYPE LIST OF COMMANDS HERE`);
                   }
                   else {
-                    this.client.chatMessage(steamID, '\nInvalid !give-all option. Please try again.');
+                    this.client.chatMessage(steamID, '\nInvalid please type "!help" for a list of available commands.');
                 
               }
             });
@@ -53,18 +53,22 @@ class SteamBot {
 
   }
 
-  sendDepositTrade(partner, assetid, callback, steamID, message) {
-    const offer = this.manager.createOffer(partner);
 
+  
+
+  sendDepositTrade(partner, assetid, socket, price , callback, steamid, message, credits ) {
+    const offer = this.manager.createOffer(partner);
+  
     this.manager.getUserInventoryContents(partner, 730, 2, true, (err, inv) => {
       if (err) {
         console.log(err);
       } else {
-        const item = inv.find(item => item.assetid == assetid);
+        const item = inv.find(item => item.assetid == assetid);    
+
 
         if (item) {
           offer.addTheirItem(item);
-          offer.setMessage(`Deposit ${item.name} on the website!`); //TO-DO grab item price here and add to credits
+          offer.setMessage(`Deposit ${item.market_hash_name} on the website! Current balance:`);   //TO-DO grab item price here and add to credits
           offer.send(function(err, status) {
             if (err) {
               console.log(err);
@@ -82,7 +86,7 @@ class SteamBot {
                 }
               });
             } else {
-              console.log(`Offer #${offer.id} sent successfully ${offer.tradeID} ${offer.itemsToGive} ${offer.}`);
+              console.log(`Offer #${offer.id} sent successfully`);
             }
           });
         };
