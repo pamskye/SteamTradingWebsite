@@ -101,27 +101,11 @@ io.use(
 io.on('connection', socket => {
   socket.on('deposit', data => {
     const user = socket.request.user;
+    console.log(`${user.personaname} is depositting ${data.assetid}. Current credit balance: ${user.credits}`);
+    
     
 
-    //TO-DO Bring this to index.js to work after a successful trade offer has gone through.
-    mongoose.connect('mongodb://127.0.0.1:27017/steamtradingwebsite', function(err,db){   //Add credits into the credits field in the User collection in mongo database
-      if (err) { throw err; }   
-      else {
-        var test = 1;   //replace this with the price of item being traded
-        var collection = db.collection("users");
-        collection.findOneAndUpdate({steamid: user.steamid}, {$inc: {credits: test}}, {upsert: true}, function(err,doc) { 
-          if (err) { throw err; }
-          else { console.log("Updated credit balance"); }
-        });  
-      }
-    });
     
-
-
-
-
-    console.log(`${user.personaname} is depositting ${data.assetid} Current credit balance: ${user.credits}`);
-
     bot.sendDepositTrade(
       user.steamid,
       data.assetid,
@@ -140,11 +124,12 @@ io.on('connection', socket => {
 
   socket.on('withdraw', data => {
     const user = socket.request.user;
-    console.log(`${user.personaname} is withdrawing ${data.assetid}`);
+    console.log(`${user.personaname} is withdrawing ${data.assetid}. Current credit balance: ${user.credits}}`);
+
+
 
     bot.sendWithdrawTrade(
       user.steamid,
-      user.credits,
       data.assetid,
       (err, success, tradeOffer) => {
         // TODO: Handle these events on the website
@@ -260,11 +245,23 @@ app.get('/deposit', (req, res) => {
     res.redirect('/auth/steam');
   }
 });
-// http://steamcommunity.com/profiles/76561198175112605/inventory/json/730/2
 
-app.get('/withdraw', (req, res) => {
+
+app.get('/withdraw', (req, res) => {    //TO-DO make a request send out offering the user an item
+  if (req.user) {
+    Inventory.findOne(
+      {
+        steamid: '76561198175112605'
+      },
+      (err, inv) => {
+        if (inv && Date.now() - inv.updated < 6 * 60 * 60 * 1000) {
+          res.render('withdraw', {
+            user: req.user,
+            items: inv.items
+          });
+        } else {
   community.getUserInventoryContents(
-    '76561198175112605',
+    '76561198175112605',                //Steam Bots steamid (Loads the steam bot inventory)
     730,
     2,
     true,
@@ -288,7 +285,7 @@ app.get('/withdraw', (req, res) => {
           (err, results) => {
             Inventory.update(
               {
-                steamid: 76561198175112605
+                steamid: '76561198175112605'
               },
               {
                 $set: {
@@ -310,8 +307,19 @@ app.get('/withdraw', (req, res) => {
           }
         );
       }
-    })
-  });
+    }
+  );
+}
+}
+);
+} else {
+res.redirect('/auth/steam');
+}
+});
+
+
+
+
 
 app.get('/profile', (req, res) => {
   res.render('profile', {
@@ -336,3 +344,5 @@ app.get('/logout', (req, res) => {
 server.listen(3037, () => {
   console.log('listening');
 });
+
+
