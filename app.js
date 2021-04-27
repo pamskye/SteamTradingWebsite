@@ -124,7 +124,7 @@ io.on('connection', socket => {
 
   socket.on('withdraw', data => {
     const user = socket.request.user;
-    console.log(`${user.personaname} is withdrawing ${data.assetid}. Current credit balance: ${user.credits}}`);
+    console.log(`${user.personaname} is withdrawing ${data.assetid}. Current credit balance: ${user.credits}`);
 
 
 
