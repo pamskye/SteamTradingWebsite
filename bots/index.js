@@ -73,10 +73,31 @@ class SteamBot {
         console.log(err);
       } else {
         console.log(inv);
-        const item = inv.find(item => item.assetid == '21798494874');     
+        const item = inv.find(item => item.assetid == assetid);     
         console.log(`Withdraw test ${item.market_hash_name}`);
 
         if (item) {
+
+
+          
+          mongoose.connect('mongodb://127.0.0.1:27017/steamtradingwebsite', function(err,db, steamid){   //Add credits into the credits field in the User collection in mongo database
+        if (err) { throw err; }   
+        else {  
+          //Connect to item db to get price of item then pass down to priceOfItem var
+          
+
+          var priceOfItem = 10;   //replace this with the price of item being traded
+          var collection = db.collection("users");
+          collection.findOneAndUpdate({ steamid : "76561198119016105"}, {$inc: {credits: - priceOfItem}},  {upsert: true}, function(err,doc) {  //TO-DO Change steamid to grab it from user.steamid
+            if (err) { throw err; }
+            
+            else { console.log("User has enough credits to buy item. Credit Amount: ", doc.credits); }
+          });  
+        }
+        });
+
+
+
             
           offer.addMyItem(item); 
           offer.setMessage(`Withdraw ${item.market_hash_name} on the website! This item is worth credits`); 
@@ -106,7 +127,7 @@ class SteamBot {
       console.log(`Offer #${offer.id} changed: ${TradeOfferManager.ETradeOfferState[oldState]} -> ${TradeOfferManager.ETradeOfferState[offer.state]}`);   //TO-DO add credits here from item price
       if (TradeOfferManager.ETradeOfferState[offer.state] === "Declined") { //If offer is declined...
       
-        console.log("Offer has been declined")         
+        console.log("Withdraw trade offer has been declined")         
     }
     });
 
@@ -183,7 +204,7 @@ class SteamBot {
       console.log(`Offer #${offer.id} changed: ${TradeOfferManager.ETradeOfferState[oldState]} -> ${TradeOfferManager.ETradeOfferState[offer.state]}`);   //TO-DO add credits here from item price
       if (TradeOfferManager.ETradeOfferState[offer.state] === "Declined") { //If offer is declined...
       
-        console.log("Offer has been declined")
+        console.log("Deposit Trade offer has been declined")
 
         //MOVE THIS TO WHEN OFFER IS ACCEPTED WHEN FULLY WORKING
 
@@ -200,6 +221,9 @@ class SteamBot {
         });
 
 
+
+
+        
              
     }
       //TO-DO add if offer is accepted...
