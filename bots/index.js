@@ -68,7 +68,7 @@ class SteamBot {
   sendWithdrawTrade(partner, assetid ) { 
     const offer = this.manager.createOffer(partner);
   
-    this.manager.getUserInventoryContents('76561198175112605', 730, 2, true, (err, inv) => {
+    this.manager.getUserInventoryContents(config.botSteamID, 730, 2, true, (err, inv) => {
       if (err) {
         console.log(err);
       } else {

@@ -251,7 +251,7 @@ app.get('/withdraw', (req, res) => {    //TO-DO make a request send out offering
   if (req.user) {
     Inventory.findOne(
       {
-        steamid: '76561198175112605'
+        steamid: config.botSteamID
       },
       (err, inv) => {
         if (inv && Date.now() - inv.updated < 6 * 60 * 60 * 1000) {
@@ -261,7 +261,7 @@ app.get('/withdraw', (req, res) => {    //TO-DO make a request send out offering
           });
         } else {
   community.getUserInventoryContents(
-    '76561198175112605',                //Steam Bots steamid (Loads the steam bot inventory)
+    config.botSteamID,                //Steam Bots steamid (Loads the steam bot inventory)
     730,
     2,
     true,
@@ -285,7 +285,7 @@ app.get('/withdraw', (req, res) => {    //TO-DO make a request send out offering
           (err, results) => {
             Inventory.update(
               {
-                steamid: '76561198175112605'
+                steamid: config.botSteamID
               },
               {
                 $set: {
