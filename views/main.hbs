@@ -8,6 +8,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="stylesheets/main.css" />
 
 	</head>
@@ -70,6 +71,7 @@
 
 
 		{{else}}
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 		<div class="container h-80">
 <div class="row align-items-center h-100">
     <div class="col-3 mx-auto">
@@ -82,7 +84,10 @@
             <form  class="form-signin">
 				<div class="d-flex justify-content-center">
 					
-                <a href="/auth/steam" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">SIGN IN THROUGH STEAM</a>
+                <a href="/auth/steam" class="steambutton"><span>Login With Steam</span><div class="icon">
+		<i class="fab fa-steam-square" ></i>
+
+	</div></a>
 				</div>
             </form><!-- /form -->
         </div>
@@ -95,4 +100,5 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/main.js"></script>
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 </html>
