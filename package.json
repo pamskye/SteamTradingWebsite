@@ -1,0 +1,53 @@
+{
+  "name": "steamtradingwebsite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "storybook": "start-storybook -p 9001",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "react-scripts start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Conor72/SteamTradingWebsite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Conor72/SteamTradingWebsite/issues"
+  },
+  "homepage": "https://github.com/Conor72/SteamTradingWebsite#readme",
+  "dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.3",
+    "callback": "0.0.1",
+    "connect-mongo": "^3.2.0",
+    "cookie-parser": "^1.4.5",
+    "csgo-market": "^1.5.2",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.0",
+    "express-session": "^1.17.1",
+    "fs-extra": "^9.1.0",
+    "globaloffensive": "^2.1.0",
+    "mongoose": "^5.12.3",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-steam": "^1.0.15",
+    "passport.socketio": "^3.7.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3",
+    "socket.io": "^4.0.1",
+    "steam-totp": "^2.1.1",
+    "steam-tradeoffer-manager": "^2.10.3",
+    "steam-user": "^4.19.4",
+    "steamcommunity": "^3.42.0",
+    "storybook": "^6.2.7"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^5.3.1",
+    "@storybook/react": "^5.3.21",
+    "handlebars": "^4.7.7"
+  }
+}

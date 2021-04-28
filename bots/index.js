@@ -72,7 +72,7 @@ class SteamBot {
       if (err) {
         console.log(err);
       } else {
-        console.log(inv);
+
         const item = inv.find(item => item.assetid == assetid);     
         console.log(`Withdraw test ${item.market_hash_name}`);
 
@@ -96,6 +96,22 @@ class SteamBot {
         }
         });
 
+        mongoose.connect('mongodb://127.0.0.1:27017/steamtradingwebsite', function(err,db, steamid){   //Add credits into the credits field in the User collection in mongo database
+        if (err) { throw err; }   
+        else {  
+
+          var creditQuery = db.getCollection("users").find(
+            { "steamid": "76561198119016105" },
+            { "credits": 1 }
+          ).exec(function (err, test){ 
+          console.log('Credits = ', test)
+        })
+          
+        }
+        });
+
+        
+        
 
 
             
@@ -151,22 +167,31 @@ class SteamBot {
       if (err) {
         console.log(err);
       } else {
-        console.log(inv);
+        
         const item = inv.find(item => item.assetid == assetid);    
-        console.log(`Deposit test ${item.market_hash_name}`);
 
         if (item) {
             
 
+
          
-          mongoose.connect('mongodb://127.0.0.1:27017/steamtradingwebsite', function(err,db){   //Add credits into the credits field in the User collection in mongo database
+          mongoose.connect('mongodb://127.0.0.1:27017/steamtradingwebsite', function(err,db,steamid){   //Add credits into the credits field in the User collection in mongo database
         if (err) { throw err; }   
         else {
-          var collection = db.collection("prices");   //Grab price from prices DB
-          collection.findOne({market_hash_name: item.market_hash_name}, price, function(err,doc) {  
+          var collectionPrices = db.collection("prices");   //Grab price from prices DB
+          collectionPrices.findOne({market_hash_name: item.market_hash_name}, price, function(err,doc, steamid) {  
             if (err) { throw err; }
-            else { console.log(item.market_hash_name, " price = ", /*doc.price*/); }
-          });  
+            else { console.log(item.market_hash_name, " price = ", doc.price); 
+            var getItemValue = doc.price; 
+            var collectionUsers = db.collection("users");
+            collectionUsers.findOneAndUpdate({steamid: '76561198119016105'}, {$inc: {credits: getItemValue}}, {upsert: true}, function(err,doc) {  //TO-DO Change steamid to grab it from user.steamid
+              if (err) { throw err; }
+              else { console.log("Updated credit balance"); }
+            }); 
+          
+          
+          }
+          });   
         }
         });
 
