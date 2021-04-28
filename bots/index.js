@@ -90,7 +90,7 @@ class SteamBot {
             var collectionUsers = db.collection("users");
             collectionUsers.findOneAndUpdate({steamid: '76561198119016105'}, {$inc: {credits: - getItemValue}}, {upsert: true}, function(err,doc) {  //TO-DO Change steamid to grab it from user.steamid
               if (err) { throw err; }
-              else { console.log(getItemValue, " deducted from credit balance"); }
+              else { console.log(getItemValue, " deducted from credit balance.") ; }
             }); 
           
           
@@ -173,9 +173,9 @@ class SteamBot {
             else { console.log(item.market_hash_name, " price = ", doc.price); 
             var getItemValue = doc.price; //Create var of item price to use below to add to the credit balance
             var collectionUsers = db.collection("users");
-            collectionUsers.findOneAndUpdate({steamid: '76561198119016105'}, {$inc: {credits: getItemValue}}, {upsert: true}, function(err,doc) {  //TO-DO Change steamid to grab it from user.steamid
+            collectionUsers.findOneAndUpdate({steamid: '76561198119016105'}, {$inc: {credits: getItemValue}}, credits, {upsert: true}, function(err,doc) {  //Increase credits by the value of getItemValue (Which is the price of the item being traded)
               if (err) { throw err; }
-              else { console.log("Updated credit balance"); }
+              else { console.log(getItemValue, " added to credit balance.") ; } //Deduct credits by the value of getItemValue (Which is the price of the item being traded)
             }); 
           
           
@@ -221,18 +221,6 @@ class SteamBot {
         console.log("Deposit Trade offer has been declined")
 
         //MOVE THIS TO WHEN OFFER IS ACCEPTED WHEN FULLY WORKING
-
-        mongoose.connect('mongodb://127.0.0.1:27017/steamtradingwebsite', function(err,db, steamid){   //Add credits into the credits field in the User collection in mongo database
-        if (err) { throw err; }   
-        else {
-          var test = 1;   //replace this with the price of item being traded
-          var collection = db.collection("users");
-          collection.findOneAndUpdate({steamid: steamid}, {$inc: {credits: test}}, {upsert: true}, function(err,doc) {  //TO-DO Change steamid to grab it from user.steamid
-            if (err) { throw err; }
-            else { console.log("Updated credit balance"); }
-          });  
-        }
-        });
 
 
 

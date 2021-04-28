@@ -3,7 +3,7 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
-    background: #FFF;
+    background: rgb(234, 234, 234);
 }
 
 /* Category Ads */
@@ -119,3 +119,6 @@ body {
         text-transform: uppercase;
         font-size: 18px;
     }
+
+
+    

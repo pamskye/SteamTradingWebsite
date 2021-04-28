@@ -5,15 +5,15 @@ html *{
 }
 
 body,html {
-    background: white;
     font-family: 'Montserrat', sans-serif;
     height: 100%;
 }
-
+h1, h3 {
+    text-align: center;
+}
 .h6, h6 {
     font-size: .75rem !important;
     font-weight: 500;
-    font-family: Roboto,Helvetica,Arial,sans-serif;
     line-height: 1.5em;
     text-transform: uppercase;
 }
@@ -38,12 +38,13 @@ a .material-icons {
 }
 
 .profile-page .page-header {
-    height: 380px;
+    
+    height: 50px;
     background-position:center;
 }
 
 .page-header {
-    height: 100vh;
+    height: 50vh;
     background-size: cover;
     margin: 0;
     padding: 0;
@@ -64,11 +65,11 @@ a .material-icons {
 }
 
 .header-filter::before {
-    background: rgba(0,0,0,.5);
+    background: rgb(234, 234, 234);
 }
 
 .main-raised {
-    margin: -60px 30px 0;
+    margin: -200px 30px 0;
     border-radius: 6px;
     box-shadow: 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2);
 }
@@ -79,13 +80,19 @@ a .material-icons {
     z-index: 3;
 }
 
+.profile-page {
+background: rgb(234, 234, 234);
+}
+
 .profile-page .profile {
+   
     text-align: center;
 }
 
 .profile-page .profile img {
-    max-width: 160px;
+    max-width: 175px;
     width: 100%;
+    border: 2px solid #555;
     margin: 0 auto;
     -webkit-transform: translate3d(0,-50%,0);
     -moz-transform: translate3d(0,-50%,0);

@@ -5,5 +5,6 @@ module.exports = mongoose.model('User', {
   personaname: String,
   avatar: String,
   avatarfull: String,
+  realname: String,
   credits: Number
 });

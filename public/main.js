@@ -1,5 +1,7 @@
 var socket = io();
 
+
+
 $(
   (function() {
     $('.deposit.item').click(function(one, two) {
@@ -7,7 +9,7 @@ $(
         assetid: $(this).data('assetid')
       });
 
-      alert('We will send you a tradeoffer for your ' + $(this).text());
+      alert('We will send you a tradeoffer for your ' + $(this.name).text());
     });
 
     $('.withdraw.item').click(function(one, two) {
