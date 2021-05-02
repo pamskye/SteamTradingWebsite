@@ -8,9 +8,8 @@ body,html {
     font-family: 'Montserrat', sans-serif;
     height: 100%;
 }
-h1, h3 {
-    text-align: center;
-}
+
+
 .h6, h6 {
     font-size: .75rem !important;
     font-weight: 500;
@@ -39,12 +38,12 @@ a .material-icons {
 
 .profile-page .page-header {
     
-    height: 50px;
+    height: 380px;
     background-position:center;
 }
 
 .page-header {
-    height: 50vh;
+    height: 100vh;
     background-size: cover;
     margin: 0;
     padding: 0;
@@ -92,7 +91,7 @@ background: rgb(234, 234, 234);
 .profile-page .profile img {
     max-width: 175px;
     width: 100%;
-    border: 2px solid #555;
+    border: px solid #555;
     margin: 0 auto;
     -webkit-transform: translate3d(0,-50%,0);
     -moz-transform: translate3d(0,-50%,0);

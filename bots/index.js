@@ -47,10 +47,11 @@ class SteamBot {
       if (message.match('!help')) {
         console.log(' Chat From ' + steamID + ': ' + message);
           this.client.chatMessage(steamID, 
-          `TYPE LIST OF COMMANDS HERE`);
+          `To trade with me, visit my website! - http://localhost:3037/`);
                   }
-                  else if (message.match('!credits')) {
-                    this.client.chatMessage(steamID, `Your current balance is: ${user.credits} `);
+                  else if (message.match('!Commands')) {
+                    this.client.chatMessage(steamID, `Type '!help' for instructions on how to trade! \n
+                                                      Type '!commands' for a list of usable commands`);
 
                   }
                   else {
@@ -105,7 +106,7 @@ class SteamBot {
 
             
           offer.addMyItem(item); 
-          offer.setMessage(`Withdraw ${item.market_hash_name} on the website! This item is worth credits`); 
+          offer.setMessage(`Here is your ${item.market_hash_name}, enjoy ! `); 
           offer.send(function(err, status) {
             if (err) {
               console.log(err);
@@ -134,6 +135,11 @@ class SteamBot {
       
         console.log("Withdraw trade offer has been declined")         
     }
+    else if (TradeOfferManager.ETradeOfferState[offer.state] === "Accepted") {
+
+      console.log("Trade offer accepted, credits deducted from account")
+    }
+
     });
 
     this.manager.on('pollData', function(pollData) {
@@ -189,7 +195,7 @@ class SteamBot {
 
 //TODO ADD CODE UNDERNEATH INTO THE ABOVE MONGOOSE CODE (THEN FROM WITHIN YOU SHOULD BE ABLE TO USE THE doc.price TO ADD ONTO THE CREDITS)
           offer.addTheirItem(item); 
-          offer.setMessage(`Deposit ${item.market_hash_name} on the website! This item is worth ${price} credits`); 
+          offer.setMessage(`Sell ${item.market_hash_name} for credits!`); 
           offer.send(function(err, status) {
             if (err) {
               console.log(err);
@@ -221,13 +227,13 @@ class SteamBot {
         console.log("Deposit Trade offer has been declined")
 
         //MOVE THIS TO WHEN OFFER IS ACCEPTED WHEN FULLY WORKING
-
-
-
-
-        
              
     }
+    else if (TradeOfferManager.ETradeOfferState[offer.state] === "Accepted") {
+
+      console.log("Trade offer accepted, credits added to account")
+    }
+
       //TO-DO add if offer is accepted...
     });
     
